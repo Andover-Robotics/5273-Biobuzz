@@ -6,7 +6,6 @@ import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-
 @Config
 public class Intake {
     public static double SLOW_MULTIPLIER = 0.20;
@@ -61,3 +60,5 @@ public class Intake {
         return intakeMotor.motorEx.getCurrent(CurrentUnit.AMPS);
     }
 }
+
+//this is js a comment it shouldn't mess anything up right?
