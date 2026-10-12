@@ -61,4 +61,4 @@ public class Intake {
     }
 }
 
-//this is js a comment it shouldn't mess anything up righ
+//this is js a comment it shouldn't mess anything up righT
