@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode.subsystems.limelight;
 public class InertiaAutoAim {
     //Given: Magnitude and direction of Velocity, and range and elevation
     //Get: needed yaw change
-    private final static double[] ROBOT_POS = {0,0,0};
-    // double[] --> {x,y,z} (y is vertical)
+    private final static double[] ROBOT_POS = {0,0};
+    // double[] --> {x,y} (no vertical)
 
     public InertiaAutoAim() {
 
@@ -18,8 +18,8 @@ public class InertiaAutoAim {
 
         // get the needed yaw change
         double dx = goalPos[0] - (ROBOT_POS[0] + robotVel[0] * time);
-        double dz = goalPos[2] - (ROBOT_POS[2] + robotVel[2] * time);
-        double yaw = Math.atan2(dz, dx) - robotYawRad;
+        double dy = goalPos[1] - (ROBOT_POS[1] + robotVel[1] * time);
+        double yaw = Math.atan2(dy, dx) - robotYawRad;
 
         return Math.toDegrees(yaw);
     }
