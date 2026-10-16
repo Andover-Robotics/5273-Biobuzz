@@ -73,7 +73,7 @@ public class BotPeriodics {
         storage = new Storage(hardwareMap, intake);
         turret = new Turret(hardwareMap);
         movement = new Movement(hardwareMap, drive);
-        aimer = new Aimer(drive, isFarShooting);
+        aimer = new Aimer(drive, isFarShooting, outtake);
         g1 = new GamepadEx(gamepad1);
         g2 = new GamepadEx(gamepad2);
         actionHost = new ActionHost();
@@ -129,7 +129,7 @@ public class BotPeriodics {
             lastAimUpdate = now;
             targetData = aimer.calculateLocalizedData();
             lastTurnCorrection = targetData[0];
-            targetRPM = outtake.getRegressionRPM(targetData[1], isFarShooting);
+            targetRPM = outtake.getRegressionRPM(targetData[1]);
             bearingTurnCorrection = targetData[2];
         }
         turnCorrection = lastTurnCorrection;

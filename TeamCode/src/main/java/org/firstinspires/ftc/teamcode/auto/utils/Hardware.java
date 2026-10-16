@@ -28,6 +28,6 @@ public class Hardware {
         outtake  = new Outtake(hardwareMap, Outtake.Mode.RPM);
         turret = new Turret(hardwareMap);
         aprilTag = new AprilTag(hardwareMap, telemetry);
-        aimer = new Aimer(mecanumDrive, isFarShooting);
+        aimer = new Aimer(mecanumDrive, isFarShooting, outtake);
     }
 }

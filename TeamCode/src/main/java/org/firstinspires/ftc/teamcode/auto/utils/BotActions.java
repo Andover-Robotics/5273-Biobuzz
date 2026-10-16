@@ -134,7 +134,7 @@ public class BotActions {
 
                 targetData = aimer.calculateLocalizedData();
                 lastTurnCorrection = targetData[0];
-                targetRPM = outtake.getRegressionRPM(targetData[1], isFarShooting);
+                targetRPM = outtake.getRegressionRPM(targetData[1]);
                 bearingTurnCorrection = targetData[2];
                 turnCorrection = lastTurnCorrection;
 

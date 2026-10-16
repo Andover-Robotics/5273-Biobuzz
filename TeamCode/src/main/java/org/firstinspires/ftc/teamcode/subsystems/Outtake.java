@@ -46,7 +46,7 @@ public class Outtake {
     public static double INTAKE_MIN_RPM = 3200.0;
     public static double multiplierForTesting = 1;
 
-    private static final double[][] REGRESSION_DATA_CLOSE = {
+    private static final double[][] LUT_DATA_CLOSE = {
             {44.82, 2810},
             {46.11, 2820},
             {48.20, 2830},
@@ -72,7 +72,7 @@ public class Outtake {
             {100.00, 3750}
     };
 
-    private static final double[][] REGRESSION_DATA_FAR = {
+    private static final double[][] LUT_DATA_FAR = {
             {123.22, 4080},
             {125.21, 4100},
             {127.06, 4130},
@@ -91,12 +91,18 @@ public class Outtake {
             {153.26, 4820}
     };
 
-    private static final double[][] REGRESSION_DATA_REDUCED = {
+    private static final double[][] LUT_DATA_REDUCED = {
             {44.82, 2810},
             {58.17, 2900},
             {70.02, 3095},
             {80.07, 3280},
             {100.00, 3750}
+    };
+
+
+    private static final double[][] LUT_DATA_FLIGHTIME = {
+        // Flight time is from shoot function activation to hitting the goal
+        // {[target RPM, Flight Time]}
     };
 
     public Outtake(HardwareMap hardwareMap, Mode mode) {
@@ -187,30 +193,21 @@ public class Outtake {
         return sum;
     }
 
-    private double linearInterpolationCloseRegressionRPM(double range) {
-        return linearInterpolation(range, REGRESSION_DATA_CLOSE);
-    }
-
-    private double linearInterpolationFarRegressionRPM(double range) {
-        return linearInterpolation(range, REGRESSION_DATA_FAR);
+    private double linearInterpolationRegressionRPM(double range) {
+        return linearInterpolation(range, LUT_DATA_CLOSE);
     }
 
     private double linearInterpolationCloseRegressionReducedRPM(double range) {
-        return linearInterpolation(range, REGRESSION_DATA_REDUCED);
+        return linearInterpolation(range, LUT_DATA_REDUCED);
     }
 
-    public double getRegressionRPM(double range, boolean isFarShooting)
+    public double getRegressionRPM(double range)
     {
         if (Double.isNaN(range) || range <= 0) {
             return INTAKE_MIN_RPM;
         }
 
-        if (isFarShooting) {
-            return linearInterpolationFarRegressionRPM(range)/* * multiplierForTesting*/;
-        }
-        else {
-            return linearInterpolationCloseRegressionRPM(range)/* * multiplierForTesting*/;
-        }
+        return linearInterpolationRegressionRPM(range)/* * multiplierForTesting*/;
     }
 
     // Within the range and has been in range for spinupInRangeMinTime
@@ -245,4 +242,13 @@ public class Outtake {
 
         return false;
     }
+
+    // Use the mesured RPM right before firing for LUT to calculate flight time
+    public double linearInterpolationFlightTime(double targetRpmBeforeFire) {
+        if (Double.isNaN(targetRpmBeforeFire) || targetRpmBeforeFire <= 0) {
+            return 0;
+        }
+        return linearInterpolation(targetRpmBeforeFire, LUT_DATA_FLIGHTIME);
+    }
+
 }

@@ -50,7 +50,7 @@ public class DistanceRegressionTeleOp extends LinearOpMode {
         movement = new Movement(hardwareMap, drive);
 
         aprilTag = new AprilTag(hardwareMap, telemetry);
-        aprilAimer = new Aimer(drive, isFarShoting);
+        aprilAimer = new Aimer(drive, isFarShoting, outtake);
 
         GamepadEx gp1 = new GamepadEx(gamepad1);
         GamepadEx gp2 = new GamepadEx(gamepad2);

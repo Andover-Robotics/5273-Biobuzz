@@ -62,7 +62,7 @@ public class LocalizedAimingTester extends LinearOpMode {
         turret = new Turret(hardwareMap);
 
         aprilTag = new AprilTag(hardwareMap, telemetry);
-        aimer = new Aimer(drive, isFarShooting);
+        aimer = new Aimer(drive, isFarShooting, outtake);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         
         GamepadEx gp1 = new GamepadEx(gamepad1);

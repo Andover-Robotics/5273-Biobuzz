@@ -24,6 +24,13 @@ public class Aimer {
     private double lastError = 0;
     private long lastTimestamp = 0;
     private final MecanumDrive drive;
+    private final Outtake outtake;
+
+    public static boolean USE_FLIGHT_TIME_LUT = true;
+
+    public static double latencyFlightTime = 0; // should be 0 latency should be handled by LUT ; seconds
+    public static double latencyRobotPose = 0; // age of localization data; seconds
+
     //private final InertiaAutoAim inertiaAutoAim;
 
     //for rpm power
@@ -61,12 +68,12 @@ public class Aimer {
 
     public static Goal selectedGoal = Goal.RED;
 
-    public Aimer(MecanumDrive mecanumDrive, boolean isFarShooting) {
+    public Aimer(MecanumDrive mecanumDrive, boolean isFarShooting, Outtake outtake) {
         this.drive = mecanumDrive;
         //defaults to red goal
         this.isFarShooting = isFarShooting;
         setRedTarget();
-        //inertiaAutoAim = new InertiaAutoAim();
+        this.outtake = outtake;
     }
 
     public void setRedTarget(){
@@ -177,8 +184,15 @@ public class Aimer {
         return range;
     }
 
+    /*
+    Old bad version?
+
     private double angleWrapDegrees(double angle) {
         return (angle + 180) % 360 - 180;
+    }*/
+
+    private double angleWrapDegrees(double angle) {
+        return ((angle % 360.0) + 540.0) % 360.0 - 180.0;
     }
 
     public double calculateTurnPowerFromBearing(double bearing) {
@@ -230,5 +244,86 @@ public class Aimer {
         double power = kP * error + kI * integral + kD * derivative + feedforward;
 
         return Math.max(-1, Math.min(1, power));
+    }
+
+
+    /*
+     * Predicts the robot's pose due to latency and a 5-iteration estimations to find range and bearing
+     * using time-of-flight and robot velocity
+     * robotVel: in/sec; robotVelAngular : rad/sec;
+     */
+    public double[] calculateLocalizedDataWithVelocityComp(double robotVelX, double robotVelY, double robotVelAngular, double latencySec) {
+        Pose2d robotPose = drive.localizer.getPose();
+
+        // Compensate for latency by projecting robot pose forward
+        double predictedX = robotPose.position.x + (robotVelX * latencyRobotPose);
+        double predictedY = robotPose.position.y + (robotVelY * latencyRobotPose);
+        double currentHeading = robotPose.heading.toDouble();
+        double predictedHeading = currentHeading + (robotVelAngular * latencyRobotPose);
+
+        // turret offset relative
+        double turretOffsetXField = -turretOffsetY * Math.sin(predictedHeading);
+        double turretOffsetYField = turretOffsetY * Math.cos(predictedHeading);
+
+        double turretX = predictedX + turretOffsetXField;
+        double turretY = predictedY + turretOffsetYField;
+
+        double tanVx = -robotVelAngular * turretOffsetYField;
+        double tanVy = robotVelAngular * turretOffsetXField;
+
+        double turretBaseVelX = robotVelX + tanVx;
+        double turretBaseVelY = robotVelY + tanVy;
+
+        // Iterative Virtual Goal Convergence Loop
+        double virtualTargetAimX = targetPoseAim.position.x;
+        double virtualTargetAimY = targetPoseAim.position.y;
+        double virtualTargetRpmX = targetPoseForRpm.position.x;
+        double virtualTargetRpmY = targetPoseForRpm.position.y;
+
+        double range = 0.0;
+        double finalTimeOfFlight = 0.0;
+
+        for (int i = 0; i < 5; i++) {
+            // Calculate range dynamically using the current iterative virtual RPM target
+            double dxRpm = virtualTargetRpmX - turretX;
+            double dyRpm = virtualTargetRpmY - turretY;
+
+            double horizontalDistanceForRpm = Math.hypot(dxRpm, dyRpm);
+            double dz = targetHeight - turretHeight;
+
+            range = Math.hypot(horizontalDistanceForRpm, dz);
+
+            double timeOfFlight = 0;
+            if (USE_FLIGHT_TIME_LUT) {
+                double targetRpm = outtake.getRegressionRPM(range);
+                timeOfFlight = outtake.linearInterpolationFlightTime(targetRpm);
+            }
+
+            if (timeOfFlight <= 0.0) {
+                break;
+            }
+
+            finalTimeOfFlight = latencyFlightTime + timeOfFlight;
+
+            // Shift Both targets opposite to the turret/robot velocity vector over total drift time
+            virtualTargetAimX = targetPoseAim.position.x - (turretBaseVelX * finalTimeOfFlight);
+            virtualTargetAimY = targetPoseAim.position.y - (turretBaseVelY * finalTimeOfFlight);
+
+            virtualTargetRpmX = targetPoseForRpm.position.x - (turretBaseVelX * finalTimeOfFlight);
+            virtualTargetRpmY = targetPoseForRpm.position.y - (turretBaseVelY * finalTimeOfFlight);
+        }
+
+        // Final Distance and Heading Calculations using the above
+        double dxAim = virtualTargetAimX - turretX;
+        double dyAim = virtualTargetAimY - turretY;
+
+        // range is already finalized from the last iteration of the loop above
+        double desiredHeading = Math.atan2(dyAim, dxAim);
+
+        double bearing = Math.toDegrees(desiredHeading - predictedHeading);
+        bearing = angleWrapDegrees(bearing);
+
+        double turnPower = -calculateTurnPowerFromBearing(bearing);
+        return new double[]{turnPower, range, bearing, Math.toDegrees(desiredHeading)};
     }
 }
