@@ -30,6 +30,7 @@ public class Aimer {
 
     public static double latencyFlightTime = 0; // should be 0 latency should be handled by LUT ; seconds
     public static double latencyRobotPose = 0; // age of localization data; seconds
+    public static int MAX_GOAL_ITERATION = 5; // maximum iterations of goal adjustment
 
     //private final InertiaAutoAim inertiaAutoAim;
 
@@ -252,7 +253,7 @@ public class Aimer {
      * using time-of-flight and robot velocity
      * robotVel: in/sec; robotVelAngular : rad/sec;
      */
-    public double[] calculateLocalizedDataWithVelocityComp(double robotVelX, double robotVelY, double robotVelAngular, double latencySec) {
+    public double[] calculateLocalizedDataWithVelocityComp(double robotVelX, double robotVelY, double robotVelAngular) {
         Pose2d robotPose = drive.localizer.getPose();
 
         // Compensate for latency by projecting robot pose forward
@@ -280,10 +281,11 @@ public class Aimer {
         double virtualTargetRpmX = targetPoseForRpm.position.x;
         double virtualTargetRpmY = targetPoseForRpm.position.y;
 
+        int i = 0;
         double range = 0.0;
         double finalTimeOfFlight = 0.0;
 
-        for (int i = 0; i < 5; i++) {
+        while (true) {
             // Calculate range dynamically using the current iterative virtual RPM target
             double dxRpm = virtualTargetRpmX - turretX;
             double dyRpm = virtualTargetRpmY - turretY;
@@ -304,6 +306,9 @@ public class Aimer {
             }
 
             finalTimeOfFlight = latencyFlightTime + timeOfFlight;
+
+            // Last goal iteration needs to keep time and range accurate
+            if (i++ >= MAX_GOAL_ITERATION) break;
 
             // Shift Both targets opposite to the turret/robot velocity vector over total drift time
             virtualTargetAimX = targetPoseAim.position.x - (turretBaseVelX * finalTimeOfFlight);
