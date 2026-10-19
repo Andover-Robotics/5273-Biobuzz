@@ -14,8 +14,8 @@ public class Storage {
     private final SimpleServo gate;
     private final Intake intake;
 
-    public static double gateClosedPos = 0.29;
-    public static double gateOpenPos = 0.05;
+    public static double gateClosedPos = 0.31;
+    public static double gateOpenPos = 0.15;
     public static double TRANSFER_POWER_CLOSE = 1.0;
     public static double TRANSFER_POWER_FAR = 1.0;
     public static double fullDurationThreshold = 300; // ms
