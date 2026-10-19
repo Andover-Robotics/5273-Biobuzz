@@ -16,8 +16,8 @@ public class Storage {
 
     public static double gateClosedPos = 0.29;
     public static double gateOpenPos = 0.05;
-    public static double TRANSFER_POWER_CLOSE = -0.7;
-    public static double TRANSFER_POWER_FAR = -0.6;
+    public static double TRANSFER_POWER_CLOSE = 1.0;
+    public static double TRANSFER_POWER_FAR = 1.0;
     public static double fullDurationThreshold = 300; // ms
     public static double fullCurrentThresholdAmps = 7.5; // amps
     private ElapsedTime fullDurationTimer;
