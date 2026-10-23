@@ -280,13 +280,13 @@ public class LocalizedAimingTester extends LinearOpMode {
         // Alliance selection
         if (g1.wasJustPressed(GamepadKeys.Button.BACK)) {
             aprilTag.setPipeline(0);
-            aimer.setBlueTarget();
+            aimer.setLeftTarget();
             colorGoalSelected = "Blue";
         }
 
         if (g1.wasJustPressed(GamepadKeys.Button.START)) {
             aprilTag.setPipeline(1);
-            aimer.setRedTarget();
+            aimer.setRightTarget();
             colorGoalSelected = "Red";
         }
 

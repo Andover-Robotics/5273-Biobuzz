@@ -7,7 +7,6 @@ import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -42,11 +41,11 @@ public class Bot extends BotPeriodics {
         initialBackwardsTransfer = true;
         turret.initialize();
         aimer.localize(startPose);
-        if (goal == Aimer.Goal.BLUE) {
-            aimer.setBlueTarget();
+        if (goal == Aimer.Goal.LEFT) {
+            aimer.setLeftTarget();
         }
         else {
-            aimer.setRedTarget();
+            aimer.setRightTarget();
         }
     }
 
@@ -87,14 +86,14 @@ public class Bot extends BotPeriodics {
     @Override
     protected void handleAllianceSelection() {
         if (g1.wasJustPressed(GamepadKeys.Button.BACK) || g2.wasJustPressed(GamepadKeys.Button.BACK)) {
-            aimer.setBlueTarget();
+            aimer.setLeftTarget();
             g1.gamepad.setLedColor(0, 0, 1, TeleopConstants.Gamepad.GAMEPAD_LIGHT_COLOR_DURATION);
-            goal = Aimer.Goal.RED;
+            goal = Aimer.Goal.RIGHT;
         }
         if (g1.wasJustPressed(GamepadKeys.Button.START) || g2.wasJustPressed(GamepadKeys.Button.START)) {
-            aimer.setRedTarget();
+            aimer.setRightTarget();
             g1.gamepad.setLedColor(1, 0, 0, TeleopConstants.Gamepad.GAMEPAD_LIGHT_COLOR_DURATION);
-            goal = Aimer.Goal.RED;
+            goal = Aimer.Goal.RIGHT;
         }
     }
 

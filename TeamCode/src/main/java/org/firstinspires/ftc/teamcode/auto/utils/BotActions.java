@@ -147,9 +147,9 @@ public class BotActions {
     }
 
     public Action startActions(Aimer.Goal goal) {
-        if (goal == Aimer.Goal.BLUE) {
+        if (goal == Aimer.Goal.LEFT) {
             return new SequentialAction (
-                    new InstantAction(aimer::setBlueTarget),
+                    new InstantAction(aimer::setLeftTarget),
                     new InstantAction(storage::closeGate),
                     new InstantAction(turret::initialize),
                     new InstantAction(intake::runSlow),
@@ -158,7 +158,7 @@ public class BotActions {
         }
         else {
             return new SequentialAction(
-                    new InstantAction(aimer::setRedTarget),
+                    new InstantAction(aimer::setRightTarget),
                     new InstantAction(storage::closeGate),
                     new InstantAction(turret::initialize),
                     new InstantAction(intake::runSlow),

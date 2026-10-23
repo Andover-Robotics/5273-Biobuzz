@@ -4,9 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
-import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -74,7 +72,7 @@ public class CloseTwelveRed extends LinearOpMode {
         TrajectoryActionBuilder builder = drive.actionBuilder(startPose);
 
         builder = builder
-                .stopAndAdd(botActions.startActions(Aimer.Goal.RED))
+                .stopAndAdd(botActions.startActions(Aimer.Goal.RIGHT))
                 .stopAndAdd(botActions.actionSetAimlock(true))
                 .strafeToSplineHeading(shootPos.position, shootPos.heading.log())
                 
@@ -138,7 +136,7 @@ public class CloseTwelveRed extends LinearOpMode {
             drive.updatePoseEstimate();
             MainTeleopClose.startPose = drive.localizer.getPose();
             Bot.startPose = drive.localizer.getPose();
-            BotPeriodics.goal = Aimer.Goal.RED;
+            BotPeriodics.goal = Aimer.Goal.RIGHT;
         }
     }
 }

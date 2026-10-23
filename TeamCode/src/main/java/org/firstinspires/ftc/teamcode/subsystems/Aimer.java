@@ -32,12 +32,19 @@ public class Aimer {
     public static double latencyRobotPose = 0; // age of localization data; seconds
     public static int MAX_GOAL_ITERATION = 5; // maximum iterations of goal adjustment
 
-    //private final InertiaAutoAim inertiaAutoAim;
+
+    public static Pose2d targetPoseForRpmLeft = new Pose2d(60, 58, Math.toRadians(90));
+    public static Pose2d targetPoseForRpmRight = new Pose2d(144-targetPoseForRpmLeft.position.x, 58, Math.toRadians(90));
+
+    //for bearing
+    public static Pose2d targetPoseForAimLeft = new Pose2d(60,58,Math.toRadians(90));
+    public static Pose2d targetPoseForAimRight = new Pose2d(144- targetPoseForAimLeft.position.x,58, Math.toRadians(90));
 
     //for rpm power
-    public static Pose2d targetPoseForRpm = new Pose2d(0, 132, Math.toRadians(90));
-    //for bearing
-    public static Pose2d targetPoseAim = new Pose2d(0, 132, Math.toRadians(90));
+    public static Pose2d targetPoseForRpm = targetPoseForRpmLeft;
+    public static Pose2d targetPoseAim = targetPoseForAimLeft;
+
+
     public static double turretHeight = 11.0; // inches
     public static double targetHeight = 29.5; // inches
 
@@ -63,44 +70,33 @@ public class Aimer {
     private boolean isFarShooting = false;
 
     public enum Goal {
-        RED,
-        BLUE
+        LEFT,
+        RIGHT
     }
 
-    public static Goal selectedGoal = Goal.RED;
+    public static Goal selectedGoal = Goal.RIGHT;
 
     public Aimer(MecanumDrive mecanumDrive, boolean isFarShooting, Outtake outtake) {
         this.drive = mecanumDrive;
         //defaults to red goal
         this.isFarShooting = isFarShooting;
-        setRedTarget();
+        setRightTarget();
         this.outtake = outtake;
     }
 
-    public void setRedTarget(){
-        selectedGoal = Goal.RED;
+    public void setLeftTarget() {
+        selectedGoal = Goal.LEFT;
 
-        if (isFarShooting) {
-            targetPoseForRpm = new Pose2d(144 - goalOutForRpmFar, 144 - goalBackForRpmFar, Math.toRadians(90));
-            targetPoseAim = new Pose2d(144 - goalOutAimFar, 144 - goalBackAimFar, Math.toRadians(90));
-        }
-        else {
-            targetPoseForRpm = new Pose2d(144 - goalOutForRpmClose, 144 - goalBackForRpmClose, Math.toRadians(90));
-            targetPoseAim = new Pose2d(144 - goalOutAimClose, 144 - goalBackAimClose, Math.toRadians(90));
-        }
+        targetPoseForRpm = targetPoseForRpmLeft;
+        targetPoseAim = targetPoseForAimLeft;
     }
 
-    public void setBlueTarget(){
-        selectedGoal = Goal.BLUE;
+    public void setRightTarget(){
+        selectedGoal = Goal.RIGHT;
 
-        if (isFarShooting) {
-            targetPoseForRpm = new Pose2d(goalOutForRpmFar,144 - goalBackForRpmFar, Math.toRadians(90));
-            targetPoseAim = new Pose2d(goalOutAimFar,144 - goalBackAimFar, Math.toRadians(90));
-        }
-        else {
-            targetPoseForRpm = new Pose2d(goalOutForRpmClose, 144 - goalBackForRpmClose, Math.toRadians(90));
-            targetPoseAim = new Pose2d(goalOutAimClose, 144 - goalBackAimClose, Math.toRadians(90));
-        }
+        targetPoseForRpm = targetPoseForRpmRight;
+        targetPoseAim = targetPoseForAimRight;
+
     }
 
     public Goal getGoal() {
@@ -115,9 +111,9 @@ public class Aimer {
         double botWidth = 14.8;
         double botLength = 17.0;
         // -2.25 because turret not centered
-        if(selectedGoal == Goal.RED){
+        if(selectedGoal == Goal.RIGHT){
             drive.localizer.setPose(new Pose2d(botWidth/2, botLength/2 + centerOfRotationOffsetY, Math.toRadians(90)));
-        } else if (selectedGoal == Goal.BLUE){
+        } else if (selectedGoal == Goal.LEFT){
             drive.localizer.setPose(new Pose2d(144-botWidth/2, botLength/2 + centerOfRotationOffsetY, Math.toRadians(90)));
         }
     }
@@ -126,9 +122,9 @@ public class Aimer {
         double botWidth = 14.8;
         double botLength = 17.0;
         // -2.25 because turret not centered
-        if(selectedGoal == Goal.RED){
+        if(selectedGoal == Goal.RIGHT){
             drive.localizer.setPose(new Pose2d(110, 131, Math.toRadians(90)));
-        } else if (selectedGoal == Goal.BLUE){
+        } else if (selectedGoal == Goal.LEFT){
             drive.localizer.setPose(new Pose2d(34, 131, Math.toRadians(90)));
         }
     }

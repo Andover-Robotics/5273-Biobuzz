@@ -233,9 +233,9 @@ public class BotPeriodics {
         telemetry.addData("x", drive.localizer.getPose().position.x);
         telemetry.addData("y", drive.localizer.getPose().position.y);
 
-        if (goal == Aimer.Goal.BLUE)
+        if (goal == Aimer.Goal.LEFT)
             telemetry.addData("Alliance selected", "Blue");
-        else if (goal == Aimer.Goal.BLUE)
+        else if (goal == Aimer.Goal.LEFT)
             telemetry.addData("Alliance selected", "Red");
 
         /*telemetry.addData("Turn Correction:", turnCorrection);
@@ -249,12 +249,12 @@ public class BotPeriodics {
 
     protected void handleAllianceSelection() {
         if (g1.wasJustPressed(GamepadKeys.Button.BACK) || g2.wasJustPressed(GamepadKeys.Button.BACK)) {
-            aimer.setBlueTarget();
-            goal = Aimer.Goal.BLUE;
+            aimer.setLeftTarget();
+            goal = Aimer.Goal.LEFT;
         }
         if (g1.wasJustPressed(GamepadKeys.Button.START) || g2.wasJustPressed(GamepadKeys.Button.START)) {
-            aimer.setRedTarget();
-            goal = Aimer.Goal.RED;
+            aimer.setRightTarget();
+            goal = Aimer.Goal.RIGHT;
         }
     }
 

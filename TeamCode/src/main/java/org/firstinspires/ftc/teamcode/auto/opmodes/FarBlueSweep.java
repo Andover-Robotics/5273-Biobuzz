@@ -81,7 +81,7 @@ public class FarBlueSweep extends LinearOpMode {
 
         builder = builder
                 .stopAndAdd(botActions.actionSetAimlock(true))
-                .stopAndAdd(botActions.startActions(Aimer.Goal.BLUE))
+                .stopAndAdd(botActions.startActions(Aimer.Goal.LEFT))
                 .strafeToSplineHeading(shootPos.position, shootPos.heading.log())
                 .stopAndAdd(botActions.actionOuttake(isFarShooting))
 
@@ -154,7 +154,7 @@ public class FarBlueSweep extends LinearOpMode {
             drive.updatePoseEstimate();
             MainTeleopFar.startPose = drive.localizer.getPose();
             Bot.startPose = drive.localizer.getPose();
-            BotPeriodics.goal = Aimer.Goal.BLUE;
+            BotPeriodics.goal = Aimer.Goal.LEFT;
         }
     }
 }

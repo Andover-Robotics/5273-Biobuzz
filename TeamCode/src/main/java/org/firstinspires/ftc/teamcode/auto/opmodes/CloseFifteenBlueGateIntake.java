@@ -2,13 +2,9 @@ package org.firstinspires.ftc.teamcode.auto.opmodes;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
-import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -91,7 +87,7 @@ public class CloseFifteenBlueGateIntake extends LinearOpMode {
 
         builder = builder
                 // preload
-                .stopAndAdd(botActions.startActions(Aimer.Goal.BLUE))
+                .stopAndAdd(botActions.startActions(Aimer.Goal.LEFT))
                 .stopAndAdd(botActions.actionSetAimlock(true))
                 .strafeToSplineHeading(shootPos.position, shootPos.heading.log())
                 .stopAndAdd(botActions.actionOuttake(isFarShooting))
@@ -191,7 +187,7 @@ public class CloseFifteenBlueGateIntake extends LinearOpMode {
             drive.updatePoseEstimate();
             MainTeleopClose.startPose = drive.localizer.getPose();
             Bot.startPose = drive.localizer.getPose();
-            BotPeriodics.goal = Aimer.Goal.BLUE;
+            BotPeriodics.goal = Aimer.Goal.LEFT;
         }
     }
 }
