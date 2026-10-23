@@ -22,9 +22,9 @@ public class LocalizedAimingTester extends LinearOpMode {
 
     private Intake intake;
     private Storage storage;
-    private Outtake outtake;
+    //private Outtake outtake;
     private Movement movement;
-    private Turret turret;
+    //private Turret turret;
 
     private AprilTag aprilTag;
     private Aimer aimer;
@@ -56,13 +56,13 @@ public class LocalizedAimingTester extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         intake = new Intake(hardwareMap);
         storage = new Storage(hardwareMap, intake);
-        outtake = new Outtake(hardwareMap, Outtake.Mode.RPM);
+        //outtake = new Outtake(hardwareMap, Outtake.Mode.RPM);
         drive = new MecanumDrive(hardwareMap, startPose);
         movement = new Movement(hardwareMap, drive);
-        turret = new Turret(hardwareMap);
+        //turret = new Turret(hardwareMap);
 
         aprilTag = new AprilTag(hardwareMap, telemetry);
-        aimer = new Aimer(drive, isFarShooting, outtake);
+        aimer = new Aimer(drive, isFarShooting, null);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         
         GamepadEx gp1 = new GamepadEx(gamepad1);
@@ -84,7 +84,7 @@ public class LocalizedAimingTester extends LinearOpMode {
     }
 
     public void teleopTick(GamepadEx g1, GamepadEx g2, Telemetry telemetry) {
-        outtake.periodic();
+        //outtake.periodic();
         drive.updatePoseEstimate();
         storage.updateForIfFull();
 
@@ -133,7 +133,7 @@ public class LocalizedAimingTester extends LinearOpMode {
                     );
                 }
             } else {
-                if (mecanumAvoid) {
+                if (mecanumAvoid) {/*
                     // Avoiding the heading where servo must wraparound, to disable set BEARING_AVOID_IN_DEGREES = 0
                     double targetAngle = wrapAngle360(-bearingTurnCorrection + 180 + turret.getServoOffset());
 
@@ -163,7 +163,7 @@ public class LocalizedAimingTester extends LinearOpMode {
                     } else {
                         bearingAvoidCorrection = 0;
                     }
-                }
+                */}
                 else {
                     bearingAvoidCorrection = 0;
                 }
@@ -186,7 +186,7 @@ public class LocalizedAimingTester extends LinearOpMode {
                     );
                 }
 
-                turret.rotate(bearingTurnCorrection);
+                //turret.rotate(bearingTurnCorrection);
             }
         }
         else {
@@ -238,12 +238,14 @@ public class LocalizedAimingTester extends LinearOpMode {
             storage.stopTransfer();
         }*/
 
+        /*
         if (g2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.01)
             outtake.set(shooterRPM);
         else if (g1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.01) // Testing
             outtake.set(shooterRPM);
         else
             outtake.stop();
+*/
 
         if (g1.wasJustPressed(GamepadKeys.Button.DPAD_UP))
             storage.openGate();
@@ -253,7 +255,7 @@ public class LocalizedAimingTester extends LinearOpMode {
 
 
         if (g1.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
-            turret.setServos(0);
+            //turret.setServos(0);
         }
 
         if (g1.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)) {
@@ -281,21 +283,21 @@ public class LocalizedAimingTester extends LinearOpMode {
         if (g1.wasJustPressed(GamepadKeys.Button.BACK)) {
             aprilTag.setPipeline(0);
             aimer.setLeftTarget();
-            colorGoalSelected = "Blue";
+            colorGoalSelected = "Left";
         }
 
         if (g1.wasJustPressed(GamepadKeys.Button.START)) {
             aprilTag.setPipeline(1);
             aimer.setRightTarget();
-            colorGoalSelected = "Red";
+            colorGoalSelected = "Right";
         }
 
         // ========== TELEMETRY ==========
         telemetry.addData("A: Set intaking, B: Reset Localized Pose, X/Y: lock in/unlock, Dpad left: Scan Obelisk Id, Dpad Up/Down: actuator, Dpad Right:", "index");
-        telemetry.addData("Target RPM", outtake.getTargetRPM());
+       // telemetry.addData("Target RPM", outtake.getTargetRPM());
         telemetry.addData("Bot Range", data[1]); // moved limelight
-        telemetry.addData("measured RPM", outtake.getMeasuredRPM());
-        telemetry.addData("Outtake Power", outtake.getPower());
+       // telemetry.addData("measured RPM", outtake.getMeasuredRPM());
+        //telemetry.addData("Outtake Power", outtake.getPower());
         telemetry.addData("Localized Lock", aimlock);
         telemetry.addData("x", drive.localizer.getPose().position.x);
         telemetry.addData("y", drive.localizer.getPose().position.y);

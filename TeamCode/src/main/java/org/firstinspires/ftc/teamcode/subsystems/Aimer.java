@@ -74,7 +74,13 @@ public class Aimer {
         RIGHT
     }
 
-    public static Goal selectedGoal = Goal.RIGHT;
+    public enum LocalizeCorner {
+        BACKRIGHT,
+        BACKLEFT
+    }
+
+    public static Goal selectedGoal = Goal.LEFT;
+    public static LocalizeCorner corner = LocalizeCorner.BACKLEFT;
 
     public Aimer(MecanumDrive mecanumDrive, boolean isFarShooting, Outtake outtake) {
         this.drive = mecanumDrive;
@@ -111,9 +117,10 @@ public class Aimer {
         double botWidth = 14.8;
         double botLength = 17.0;
         // -2.25 because turret not centered
-        if(selectedGoal == Goal.RIGHT){
-            drive.localizer.setPose(new Pose2d(botWidth/2, botLength/2 + centerOfRotationOffsetY, Math.toRadians(90)));
-        } else if (selectedGoal == Goal.LEFT){
+        if(corner == LocalizeCorner.BACKLEFT) {
+            drive.localizer.setPose(new Pose2d(botWidth / 2, botLength / 2 + centerOfRotationOffsetY, Math.toRadians(90)));
+        }
+        else if(corner == LocalizeCorner.BACKRIGHT){
             drive.localizer.setPose(new Pose2d(144-botWidth/2, botLength/2 + centerOfRotationOffsetY, Math.toRadians(90)));
         }
     }
@@ -122,9 +129,9 @@ public class Aimer {
         double botWidth = 14.8;
         double botLength = 17.0;
         // -2.25 because turret not centered
-        if(selectedGoal == Goal.RIGHT){
+        if(true){
             drive.localizer.setPose(new Pose2d(110, 131, Math.toRadians(90)));
-        } else if (selectedGoal == Goal.LEFT){
+        } else if (true){
             drive.localizer.setPose(new Pose2d(34, 131, Math.toRadians(90)));
         }
     }
