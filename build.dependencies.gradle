@@ -18,8 +18,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
 
     implementation 'com.pedropathing:revhub:3.0.1'
-    // 1.0.2 may have a specific issue
-    implementation('com.pedropathing:tuning:1.0.1')
+    // 1.0.2 has an issue fixed in 1.0.3 (which is unavailable right now), which causes the loader to always crash
+    // (https://github.com/Pedro-Pathing/AutoTune/commit/f5dee99ba3cae2d76d5dd07185617f11317ced1e)
+    implementation 'com.pedropathing:tuning:1.0.1'
     implementation 'com.pedropathing.ivy:pedro:1.1.1'
 }
 
