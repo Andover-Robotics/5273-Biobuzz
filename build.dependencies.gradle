@@ -1,7 +1,9 @@
 repositories {
     mavenCentral()
     google() // Needed for androidx
-
+    maven {
+        url = 'https://repo.dairy.foundation/releases'
+    }
 }
 
 dependencies {
@@ -16,9 +18,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
 
     implementation 'com.pedropathing:revhub:3.0.1'
-    implementation('com.pedropathing:tuning:1.0.1') {
-        exclude group: "dev.frozenmilk.sinister", module: "Sloth"
-    }
+    implementation('com.pedropathing:tuning:1.0.1')
     implementation 'com.pedropathing.ivy:pedro:1.1.1'
 }
 
