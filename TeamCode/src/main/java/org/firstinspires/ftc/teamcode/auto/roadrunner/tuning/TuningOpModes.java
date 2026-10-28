@@ -303,8 +303,9 @@ public final class TuningOpModes {
         manager.register(metaForClass(OTOSLinearScalarTuner.class), new OTOSLinearScalarTuner(dvf));
         manager.register(metaForClass(OTOSHeadingOffsetTuner.class), new OTOSHeadingOffsetTuner(dvf));
         manager.register(metaForClass(OTOSPositionOffsetTuner.class), new OTOSPositionOffsetTuner(dvf));
-/*
-        FtcDashboard.getInstance().withConfigRoot(configRoot -> {
+
+        // This crashes with java.lang.NullPointerException: Attempt to invoke virtual method 'void com.acmerobotics.dashboard.FtcDashboard.withConfigRoot(com.acmerobotics.dashboard.CustomVariableConsumer)' on a null object reference
+        /*FtcDashboard.getInstance().withConfigRoot(configRoot -> {
             for (Class<?> c : Arrays.asList(
                     AngularRampLogger.class,
                     ForwardRampLogger.class,

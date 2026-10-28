@@ -2,7 +2,7 @@
 package org.firstinspires.ftc.teamcode.testing;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Utility;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import java.util.Map;
@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * An OpMode that finds servo values. Copied from last year's code.
  */
-@TeleOp(name = "Old Servo Value Finder", group = "testing")
+@Utility(name = "Old Servo Value Finder")
 public class OldServoValueFinder extends LinearOpMode {
     private static String[] SERVO_LIST;
     private static int num = 0;
