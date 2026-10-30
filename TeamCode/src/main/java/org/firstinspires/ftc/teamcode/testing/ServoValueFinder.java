@@ -4,11 +4,10 @@ package org.firstinspires.ftc.teamcode.testing;
 import androidx.annotation.NonNull;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Utility;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.Map;
 /**
  * An OpMode that finds servo values. Copied from last year's code.
  */
-@TeleOp(name = "Servo Value Finder", group = "Teleop")
+@Utility(name = "Servo Value Finder")
 public class ServoValueFinder extends LinearOpMode {
     private final static double STEP = 0.0001;
     private static int num;
@@ -48,7 +47,7 @@ public class ServoValueFinder extends LinearOpMode {
         }
     }
     private static ServoGroup[] initServoGroups(HardwareMap hardwareMap, ServoGroup[] groups){
-        List<String> singleServoNames = new LinkedList<String>(Arrays.asList(hardwareMap.servo.entrySet().stream().map(Map.Entry::getKey).toArray(String[]::new))); // all servo names
+        List<String> singleServoNames = new LinkedList<>(Arrays.asList(hardwareMap.servo.entrySet().stream().map(Map.Entry::getKey).toArray(String[]::new))); // all servo names
         for(ServoGroup group : groups){
             if(group != null){
                 for(String servoName : group.servoNames){

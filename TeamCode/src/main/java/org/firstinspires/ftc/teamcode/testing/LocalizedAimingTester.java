@@ -7,7 +7,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Utility;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.MecanumDrive;
@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Aimer;
 import org.firstinspires.ftc.teamcode.subsystems.Storage;
 
 @Config
-@TeleOp(name = "Localized aiming tester", group = "AA_main")
+@Utility(name = "Localized aiming tester")
 public class LocalizedAimingTester extends LinearOpMode {
 
     private Intake intake;

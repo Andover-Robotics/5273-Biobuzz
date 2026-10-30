@@ -1,15 +1,15 @@
 package org.firstinspires.ftc.teamcode.testing;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.Outtake;
 
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.robotcore.eventloop.opmode.Utility;
 
-@TeleOp(name = "Intake Value Tester", group = "testing")
+@Utility(name = "Intake Value Tester")
 public class IntakeValueTester extends LinearOpMode {
     Intake intake;
     Outtake outtake;

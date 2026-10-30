@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.auto.roadrunner.tuning;
 
 import androidx.annotation.NonNull;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.reflection.ReflectionConfig;
 import com.acmerobotics.roadrunner.MotorFeedforward;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ftc.AngularRampLogger;
@@ -306,7 +304,8 @@ public final class TuningOpModes {
         manager.register(metaForClass(OTOSHeadingOffsetTuner.class), new OTOSHeadingOffsetTuner(dvf));
         manager.register(metaForClass(OTOSPositionOffsetTuner.class), new OTOSPositionOffsetTuner(dvf));
 
-        FtcDashboard.getInstance().withConfigRoot(configRoot -> {
+        // This crashes with java.lang.NullPointerException: Attempt to invoke virtual method 'void com.acmerobotics.dashboard.FtcDashboard.withConfigRoot(com.acmerobotics.dashboard.CustomVariableConsumer)' on a null object reference
+        /*FtcDashboard.getInstance().withConfigRoot(configRoot -> {
             for (Class<?> c : Arrays.asList(
                     AngularRampLogger.class,
                     ForwardRampLogger.class,
@@ -317,6 +316,6 @@ public final class TuningOpModes {
             )) {
                 configRoot.putVariable(c.getSimpleName(), ReflectionConfig.createVariableFromClass(c));
             }
-        });
+        });*/
     }
 }

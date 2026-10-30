@@ -2,11 +2,11 @@ package org.firstinspires.ftc.teamcode.testing;
 
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Utility;
 
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
 
-@TeleOp(name="turret tester")
+@Utility(name="turret tester")
 public class TurretTester extends LinearOpMode {
     @Override
     public void runOpMode() {
