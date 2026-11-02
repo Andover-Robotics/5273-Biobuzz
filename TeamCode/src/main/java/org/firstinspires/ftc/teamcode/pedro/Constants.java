@@ -29,11 +29,10 @@ public class Constants {
     public static PinpointConfig localizerConfig = new PinpointConfig(c -> {
         c.name.set("pinpoint");
         c.podType.set(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        // This gives inverted X and Y, and I had to reverse yPod manually. Does that make any sense?
-        c.xPodOffset.set(-0.5957757769607184);
-        c.yPodOffset.set(6.420210590512734);
+        c.xPodOffset.set(-2.588666780727116);
+        c.yPodOffset.set(8.604803010234683);
         c.xPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
-        c.yPodDirection.set(GoBildaPinpointDriver.EncoderDirection.REVERSED);
+        c.yPodDirection.set(GoBildaPinpointDriver.EncoderDirection.FORWARD);
         c.globalDistanceUnit.set(DistanceUnit.INCH);
         c.offsetUnits.set(DistanceUnit.INCH);
     });
