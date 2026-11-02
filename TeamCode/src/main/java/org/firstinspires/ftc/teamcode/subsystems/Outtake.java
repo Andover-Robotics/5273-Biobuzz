@@ -109,7 +109,7 @@ public class Outtake {
         shooter = new MotorEx(hardwareMap, "outtake-1");
         shooter.setInverted(true);
         shooter2 = new MotorEx(hardwareMap, "outtake-2");
-        shooter2.setInverted(true);
+        shooter2.setInverted(false);
 
 
         this.mode = mode;
@@ -139,13 +139,13 @@ public class Outtake {
     }
 
 
-    public double getMeasuredRPM() { return -measuredRPM; }
+    public double getMeasuredRPM() { return measuredRPM; }
     public double getTargetRPM() { return targetRPM; }
     public double getPower() { return motorPower; }
 
     public void periodic() {
         // Update current RPM from motor encoder
-        measuredRPM = shooter2.getVelocity() / TPR * 60.0;
+        measuredRPM = -shooter.getVelocity() / TPR * 60.0;
 
         if (mode == Mode.POWER) {
             // Open-loop mode
