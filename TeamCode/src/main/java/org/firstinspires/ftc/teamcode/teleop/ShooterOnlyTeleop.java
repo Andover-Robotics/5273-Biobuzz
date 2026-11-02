@@ -4,9 +4,10 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Utility;
 
 //shooter only test
-@TeleOp(name = "Shooter Only RPM Test", group = "testing")
+@Utility(name = "Shooter Only RPM Test")
 public class ShooterOnlyTeleop extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
