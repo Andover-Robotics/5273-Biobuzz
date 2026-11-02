@@ -303,7 +303,12 @@ class TestsLocalization extends TuningOpMode<Boolean> {
         while (opModeIsActive()) {
             drivetrain.drive(new DrivePowers(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x), true);
             localizer.update();
-            telemetry.addData("Pose", localizer.pose());
+
+            //telemetry.addData("Pose (x,y, radians)", localizer.pose());
+
+            telemetry.addData("x Pos: " , localizer.pose().x());
+            telemetry.addData("Y Pos: ", localizer.pose().y());
+            telemetry.addData("Angles in Degrees", Math.toDegrees(localizer.pose().heading()));
             telemetry.update();
         }
         return true;
