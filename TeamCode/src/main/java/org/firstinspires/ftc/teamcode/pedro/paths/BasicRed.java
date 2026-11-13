@@ -1,4 +1,5 @@
-import static com.pedropathing.api.Paths.*;
+package org.firstinspires.ftc.teamcode.pedro.paths;
+
 import com.pedropathing.api.Paths;
 
 import com.pedropathing.api.PoseFactory;
@@ -66,5 +67,3 @@ public class BasicRed {
         return Paths.line(finalShootStart, finalShoot).linear(finalShootStart, finalShoot);
     }
 }
-
-Copy
