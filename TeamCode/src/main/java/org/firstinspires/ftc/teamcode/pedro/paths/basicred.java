@@ -10,24 +10,24 @@ public class BasicRed {
     private final PoseFactory poseFactory = PoseFactory.degrees();
 
     private final Pose start = poseFactory.of(56, 8, 90);
-    private final Pose path1 = poseFactory.of(56, 8, 90);
+    private final Pose startShoot = poseFactory.of(56, 8, 90);
     private final Pose point2Start = poseFactory.of(56, 8, 90);
-    private final Pose point2 = poseFactory.of(24.6724, 23.9294, 240);
-    private final Pose point3Start = poseFactory.of(24.6724, 23.9294, 240);
-    private final Pose point3 = poseFactory.of(9.454, 6.6306, -90);
-    private final Pose point4 = poseFactory.of(62.2042, 124.5585, -168.6861);
-    private final Pose point4Control1 = poseFactory.of(16.6293, 115.4402, 0);
-    private final Pose point5 = poseFactory.of(47.2838, 125.951, 90);
-    private final Pose point6 = poseFactory.of(46.9099, 133.9372, 90);
-    private final Pose point7 = poseFactory.of(37.1373, 120.1624, 90);
-    private final Pose point8Start = poseFactory.of(37.1373, 120.1624, 90);
-    private final Pose point8 = poseFactory.of(17.1964, 46.7456, 180);
-    private final Pose point9 = poseFactory.of(6.3814, 46.5563, -178.9973);
-    private final Pose point10Start = poseFactory.of(6.3814, 46.5563, 180);
-    private final Pose point10 = poseFactory.of(16.4753, 7.4784, 90);
+    private final Pose prepIntake = poseFactory.of(24.6724, 23.9294, 240);
+    private final Pose intakeStart = poseFactory.of(24.6724, 23.9294, 240);
+    private final Pose intake = poseFactory.of(9.454, 6.6306, -90);
+    private final Pose shoot2 = poseFactory.of(62.2042, 124.5585, -168.6861);
+    private final Pose shoot2control = poseFactory.of(16.6293, 115.4402, 0);
+    private final Pose prepFlower1 = poseFactory.of(47.2838, 125.951, 90);
+    private final Pose flower1 = poseFactory.of(46.9099, 133.9372, 90);
+    private final Pose shoot3 = poseFactory.of(37.1373, 120.1624, 90);
+    private final Pose flower2PrepStart = poseFactory.of(37.1373, 120.1624, 90);
+    private final Pose flower2Prep = poseFactory.of(17.1964, 46.7456, 180);
+    private final Pose flower2 = poseFactory.of(6.3814, 46.5563, -178.9973);
+    private final Pose finalShootStart = poseFactory.of(6.3814, 46.5563, 180);
+    private final Pose finalShoot = poseFactory.of(16.4753, 7.4784, 90);
 
-    public Path path1() {
-        return Paths.line(start, path1).linear(start, path1);
+    public Path startShoot() {
+        return Paths.line(start, startShoot).linear(start, startShoot);
     }
 
     public Path path2() {
@@ -35,35 +35,35 @@ public class BasicRed {
     }
 
     public Path path3() {
-        return Paths.line(point3Start, point3).linear(point3Start, point3);
+        return Paths.line(intakeStart, intake).linear(intakeStart, intake);
     }
 
     public Path path4() {
-        return Paths.curve(point3, point4Control1, point4).reverseTangent();
+        return Paths.curve(intake, shoot2control, shoot2).reverseTangent();
     }
 
     public Path path5() {
-        return Paths.line(point4, point5).constant(point5);
+        return Paths.line(shoot2, prepFlower1).constant(prepFlower1);
     }
 
     public Path path6() {
-        return Paths.line(point5, point6).constant(point6);
+        return Paths.line(prepFlower1, flower1).constant(flower1);
     }
 
     public Path path7() {
-        return Paths.line(point6, point7).constant(point7);
+        return Paths.line(flower1, shoot3).constant(shoot3);
     }
 
     public Path path8() {
-        return Paths.line(point8Start, point8).linear(point8Start, point8);
+        return Paths.line(flower2PrepStart, flower2Prep).linear(flower2PrepStart, flower2Prep);
     }
 
     public Path path9() {
-        return Paths.line(point8, point9).tangent();
+        return Paths.line(flower2Prep, flower2).tangent();
     }
 
-    public Path path10() {
-        return Paths.line(point10Start, point10).linear(point10Start, point10);
+    public Path startShoot0() {
+        return Paths.line(finalShootStart, finalShoot).linear(finalShootStart, finalShoot);
     }
 }
 
