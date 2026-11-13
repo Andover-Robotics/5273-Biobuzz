@@ -145,7 +145,7 @@ public class Outtake {
 
     public void periodic() {
         // Update current RPM from motor encoder
-        measuredRPM = shooter.getVelocity() / TPR * 60.0;
+        measuredRPM = -shooter.getVelocity() / TPR * 60.0;
 
         if (mode == Mode.POWER) {
             // Open-loop mode
