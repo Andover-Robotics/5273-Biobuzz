@@ -99,13 +99,13 @@ public class Bot extends BotPeriodics {
 
     private Action actionFire(boolean isFarShooting) {
         Action shootingAction = new SequentialAction(
-                packet -> {
+                /*packet -> {
                     outtake.set(getTargetRPM());
                     return !outtake.inRange(withinRpmRange, 75);
-                },
+                },*/
                 new InstantAction(intake::run),
                 new InstantAction(() -> storage.runTransfer(isFarShooting)),
-                new InstantAction(storage::openGate),
+                new InstantAction(storage::onpenGate),
                 new SleepAction(FIRE_TIME),
                 new InstantAction(storage::closeGate),
                 new InstantAction(intake::stop),
