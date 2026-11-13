@@ -27,12 +27,17 @@ public class BasicRed {
     private final Pose finalShootStart = poseFactory.of(6.3814, 46.5563, 180);
     private final Pose finalShoot = poseFactory.of(16.4753, 7.4784, 90);
 
+
+    public Pose getStartPose() {
+    return start;
+    }
+
     public Path startShoot() {
         return Paths.line(start, startShoot).linear(start, startShoot);
     }
 
     public Path path2() {
-        return Paths.line(point2Start, point2).linear(point2Start, point2);
+        return Paths.line(point2Start, prepIntake).linear(point2Start, prepIntake);
     }
 
     public Path path3() {
