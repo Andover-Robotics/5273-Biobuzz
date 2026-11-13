@@ -105,7 +105,7 @@ public class Bot extends BotPeriodics {
                 },*/
                 new InstantAction(intake::run),
                 new InstantAction(() -> storage.runTransfer(isFarShooting)),
-                new InstantAction(storage::onpenGate),
+                new InstantAction(storage::openGate),
                 new SleepAction(FIRE_TIME),
                 new InstantAction(storage::closeGate),
                 new InstantAction(intake::stop),
