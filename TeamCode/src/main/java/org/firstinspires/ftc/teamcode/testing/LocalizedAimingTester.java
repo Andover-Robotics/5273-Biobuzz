@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Utility;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.Localizer;
 import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.MecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.*;
 import org.firstinspires.ftc.teamcode.subsystems.limelight.AprilTag;
@@ -28,7 +29,7 @@ public class LocalizedAimingTester extends LinearOpMode {
 
     private AprilTag aprilTag;
     private Aimer aimer;
-    private MecanumDrive drive;
+    private Localizer localizer;
 
     private long currentTime = 0;
     private long lastTick = 0;
@@ -57,12 +58,12 @@ public class LocalizedAimingTester extends LinearOpMode {
         intake = new Intake(hardwareMap);
         storage = new Storage(hardwareMap, intake);
         //outtake = new Outtake(hardwareMap, Outtake.Mode.RPM);
-        drive = new MecanumDrive(hardwareMap, startPose);
-        movement = new Movement(hardwareMap, drive);
+        localizer = new MecanumDrive(hardwareMap, startPose).localizer;
+        movement = new Movement(hardwareMap, localizer);
         //turret = new Turret(hardwareMap);
 
         aprilTag = new AprilTag(hardwareMap, telemetry);
-        aimer = new Aimer(drive, isFarShooting, null);
+        aimer = new Aimer(localizer, isFarShooting, null);
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         
         GamepadEx gp1 = new GamepadEx(gamepad1);
@@ -85,7 +86,7 @@ public class LocalizedAimingTester extends LinearOpMode {
 
     public void teleopTick(GamepadEx g1, GamepadEx g2, Telemetry telemetry) {
         //outtake.periodic();
-        drive.updatePoseEstimate();
+        localizer.update();
         storage.updateForIfFull();
 
         double turnCorrection = 0;
@@ -299,9 +300,9 @@ public class LocalizedAimingTester extends LinearOpMode {
        // telemetry.addData("measured RPM", outtake.getMeasuredRPM());
         //telemetry.addData("Outtake Power", outtake.getPower());
         telemetry.addData("Localized Lock", aimlock);
-        telemetry.addData("x", drive.localizer.getPose().position.x);
-        telemetry.addData("y", drive.localizer.getPose().position.y);
-        telemetry.addData("heading (deg)", Math.toDegrees(drive.localizer.getPose().heading.log()));
+        telemetry.addData("x", localizer.getPose().position.x);
+        telemetry.addData("y", localizer.getPose().position.y);
+        telemetry.addData("heading (deg)", Math.toDegrees(localizer.getPose().heading.log()));
         telemetry.addData("Goal heading (deg)", goalHeading);
         telemetry.addData("heading error (deg)", bearingTurnCorrection);
         telemetry.addData("targetPose for Aim x", Aimer.targetPoseAim.position.x);

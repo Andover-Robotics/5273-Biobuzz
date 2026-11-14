@@ -19,6 +19,7 @@ public class Intake {
     public Intake(HardwareMap hardwareMap)
     {
         intakeMotor = new MotorEx(hardwareMap, "intake");
+        intakeMotor.setInverted(true);
     }
     public void stop()
     {

@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.Localizer;
 import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.MecanumDrive;
 
 public class AntiDefense {
@@ -13,11 +14,11 @@ public class AntiDefense {
     public static double kH = 0.0; //heading gain
     public static double xyTolerance = 0.5;
     public static double aTolerance = Math.PI /30;
-    MecanumDrive drive;
+    Localizer localizer;
     private Pose2d referencePoint;
-    public AntiDefense(Telemetry telemetry, MecanumDrive drive)
+    public AntiDefense(Telemetry telemetry, Localizer localizer)
     {
-        this.drive = drive;
+        this.localizer = localizer;
     }
     public void lock(Pose2d currentBotPos)
     {
@@ -42,6 +43,6 @@ public class AntiDefense {
         double theta = clampAngle(error.heading.toDouble());
 
         if(xyError.norm() < xyTolerance && Math.abs(theta) < aTolerance) return;
-        drive.setDrivePowers(new PoseVelocity2d(error.position.times(kP), theta * kH));
+        //drive.setDrivePowers(new PoseVelocity2d(error.position.times(kP), theta * kH));
     }
 }

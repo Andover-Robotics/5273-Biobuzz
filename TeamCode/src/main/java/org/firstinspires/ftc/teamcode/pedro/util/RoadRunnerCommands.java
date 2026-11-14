@@ -1,5 +1,5 @@
 
-package org.firstinspires.ftc.teamcode.pedro.commands;
+package org.firstinspires.ftc.teamcode.pedro.util;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
@@ -10,28 +10,32 @@ import com.pedropathing.ivy.Command;
 import java.util.function.Supplier;
 
 public class RoadRunnerCommands {
+    // "Variable must be final or effectively final"
+    static class RRCommandData {
+        Action action;
+        boolean running;
+    }
 
-    public static Command run(Supplier<Action> actionFactory) {
-        Action[] action = new Action[1];
-        boolean[] running = {true};
+    public static Command run(Action action) {
+        RRCommandData data = new RRCommandData();
 
         return Command.build()
             .setStart(() -> {
-                // fresh ahh action
-                action[0] = actionFactory.get();
-                running[0] = true;
+                data.action = action;
+                data.running = true;
             })
 
             .setExecute(() -> {
                 TelemetryPacket packet = new TelemetryPacket();
-                running[0] = action[0].run(packet);
+                data.running = data.action.run(packet);
                 FtcDashboard.getInstance()
                     .sendTelemetryPacket(packet);
             })
-            .setDone(() -> !running[0])
+            .setDone(() -> !data.running)
 
             .setEnd(endCondition -> {
-                action[0] = null;
+                data.action = null;
+                data.running = false;
             });
     }
 }

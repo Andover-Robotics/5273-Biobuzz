@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.Localizer;
 import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.MecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.Aimer;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
@@ -21,7 +22,7 @@ public class BotPeriodics {
     protected final Outtake outtake;
     protected final Movement movement;
     protected final Aimer aimer;
-    protected final MecanumDrive drive;
+    protected final Localizer localizer;
     protected final Storage storage;
     protected final Turret turret;
     protected final GamepadEx g1;
@@ -65,15 +66,15 @@ public class BotPeriodics {
     protected boolean currentAutoAimlock = true;
     protected boolean turnCurrentSensingOff = false;
 
-    public BotPeriodics(HardwareMap hardwareMap, Telemetry tele, MecanumDrive mecanumDrive, Gamepad gamepad1, Gamepad gamepad2, boolean useMovement, boolean isFarShooting) {
+    public BotPeriodics(HardwareMap hardwareMap, Telemetry tele, Localizer localizer, Gamepad gamepad1, Gamepad gamepad2, boolean useMovement, boolean isFarShooting) {
         this.isFarShooting = isFarShooting;
         intake = new Intake(hardwareMap);
         outtake = new Outtake(hardwareMap, Outtake.Mode.RPM);
-        drive = mecanumDrive;
+        this.localizer = localizer;
         storage = new Storage(hardwareMap, intake);
         turret = new Turret(hardwareMap);
-        movement = new Movement(hardwareMap, drive);
-        aimer = new Aimer(drive, isFarShooting, outtake);
+        movement = new Movement(hardwareMap, localizer);
+        aimer = new Aimer(localizer, isFarShooting, outtake);
         g1 = new GamepadEx(gamepad1);
         g2 = new GamepadEx(gamepad2);
         actionHost = new ActionHost();
@@ -121,7 +122,7 @@ public class BotPeriodics {
 
         outtake.periodic();
         actionHost.update();
-        drive.updatePoseEstimate();
+        localizer.update();
 
         long now = System.currentTimeMillis();
 
@@ -230,8 +231,8 @@ public class BotPeriodics {
         telemetry.addData("Outtake RPM", outtake.getMeasuredRPM());
         telemetry.addData("Target RMP", outtake.getTargetRPM());*/
         telemetry.addData("Bot Range", targetData[1]);
-        telemetry.addData("x", drive.localizer.getPose().position.x);
-        telemetry.addData("y", drive.localizer.getPose().position.y);
+        telemetry.addData("x", localizer.getPose().position.x);
+        telemetry.addData("y", localizer.getPose().position.y);
 
         if (goal == Aimer.Goal.LEFT)
             telemetry.addData("Alliance selected", "Blue");

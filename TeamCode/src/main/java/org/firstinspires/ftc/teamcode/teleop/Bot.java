@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.Localizer;
 import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.MecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.Aimer;
 
@@ -27,8 +28,8 @@ public class Bot extends BotPeriodics {
 
     public static Pose2d startPose = new Pose2d(0, 0, 0);
 
-    public Bot(HardwareMap hardwareMap, Telemetry tele, MecanumDrive mecanumDrive, Gamepad gamepad1, Gamepad gamepad2, boolean twoMovement, boolean isFarShooting) {
-        super(hardwareMap, tele, mecanumDrive, gamepad1, gamepad2, twoMovement, isFarShooting);
+    public Bot(HardwareMap hardwareMap, Telemetry tele, Localizer localizer, Gamepad gamepad1, Gamepad gamepad2, boolean twoMovement, boolean isFarShooting) {
+        super(hardwareMap, tele, localizer, gamepad1, gamepad2, twoMovement, isFarShooting);
         hardwareMap.voltageSensor.iterator().next().getVoltage(); // ensure voltage sensor is initialized before teleop starts
     }
 

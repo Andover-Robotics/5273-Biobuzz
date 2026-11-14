@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.Localizer;
 import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.MecanumDrive;
 import org.firstinspires.ftc.teamcode.teleop.BotPeriodics;
 import org.firstinspires.ftc.teamcode.teleop.TeleopConstants;
@@ -20,7 +21,7 @@ public class Demo extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        DemoBot bot = new DemoBot(hardwareMap, telemetry, new MecanumDrive(hardwareMap, new Pose2d(0, 0, Math.toRadians(0))), gamepad1, gamepad2,false, isFarShooting);
+        DemoBot bot = new DemoBot(hardwareMap, telemetry, new MecanumDrive(hardwareMap, new Pose2d(0, 0, Math.toRadians(0))).localizer, gamepad1, gamepad2,false, isFarShooting);
         bot.teleopInit();
         waitForStart();
         bot.teleopStart();
@@ -40,8 +41,8 @@ class DemoBot extends BotPeriodics {
     public static double RPM =  1800.0;
     public static boolean isFarShooting = false;
 
-    public DemoBot(HardwareMap hardwareMap, Telemetry tele, MecanumDrive drive, Gamepad gamepad1, Gamepad gamepad2, boolean twoMovement, boolean isFrShooting) {
-        super(hardwareMap, tele, drive, gamepad1, gamepad2, twoMovement, isFrShooting);
+    public DemoBot(HardwareMap hardwareMap, Telemetry tele, Localizer localizer, Gamepad gamepad1, Gamepad gamepad2, boolean twoMovement, boolean isFrShooting) {
+        super(hardwareMap, tele, localizer, gamepad1, gamepad2, twoMovement, isFrShooting);
     }
 
     public void teleopInit() {

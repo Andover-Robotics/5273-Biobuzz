@@ -22,7 +22,7 @@ public class TurretAutoAimTester extends LinearOpMode {
                 new Pose2d(0, 0, Math.toRadians(0))
         );
         Turret turret = new Turret(hardwareMap);
-        Aimer aimer = new Aimer(drive, false, null);
+        Aimer aimer = new Aimer(drive.localizer, false, null);
         GamepadEx gamepad = new GamepadEx(gamepad1);
 
         turret.initialize();

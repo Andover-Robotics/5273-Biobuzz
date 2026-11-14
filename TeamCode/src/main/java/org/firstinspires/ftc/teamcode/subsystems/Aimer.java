@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
 
-import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.MecanumDrive;
+import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.Localizer;
 
 
 @Config
@@ -23,7 +23,7 @@ public class Aimer {
     private double lastDerivative = 0.0;
     private double lastError = 0;
     private long lastTimestamp = 0;
-    private final MecanumDrive drive;
+    private final Localizer localizer;
     private final Outtake outtake;
 
     public static boolean USE_FLIGHT_TIME_LUT = true;
@@ -82,8 +82,8 @@ public class Aimer {
     public static Goal selectedGoal = Goal.LEFT;
     public static LocalizeCorner corner = LocalizeCorner.BACKLEFT;
 
-    public Aimer(MecanumDrive mecanumDrive, boolean isFarShooting, Outtake outtake) {
-        this.drive = mecanumDrive;
+    public Aimer(Localizer localizer, boolean isFarShooting, Outtake outtake) {
+        this.localizer = localizer;
         //defaults to red goal
         this.isFarShooting = isFarShooting;
         setRightTarget();
@@ -110,7 +110,7 @@ public class Aimer {
     }
 
     public void localize(Pose2d pose) {
-        drive.localizer.setPose(pose);
+        localizer.setPose(pose);
     }
 
     public void relocalizeForBack(){
@@ -118,10 +118,10 @@ public class Aimer {
         double botLength = 17.0;
         // -2.25 because turret not centered
         if(corner == LocalizeCorner.BACKLEFT) {
-            drive.localizer.setPose(new Pose2d(botWidth / 2, botLength / 2 + centerOfRotationOffsetY, Math.toRadians(90)));
+            localizer.setPose(new Pose2d(botWidth / 2, botLength / 2 + centerOfRotationOffsetY, Math.toRadians(90)));
         }
         else if(corner == LocalizeCorner.BACKRIGHT){
-            drive.localizer.setPose(new Pose2d(144-botWidth/2, botLength/2 + centerOfRotationOffsetY, Math.toRadians(90)));
+            localizer.setPose(new Pose2d(144-botWidth/2, botLength/2 + centerOfRotationOffsetY, Math.toRadians(90)));
         }
     }
 
@@ -130,14 +130,14 @@ public class Aimer {
         double botLength = 17.0;
         // -2.25 because turret not centered
         if(true){
-            drive.localizer.setPose(new Pose2d(110, 131, Math.toRadians(90)));
+            localizer.setPose(new Pose2d(110, 131, Math.toRadians(90)));
         } else if (true){
-            drive.localizer.setPose(new Pose2d(34, 131, Math.toRadians(90)));
+            localizer.setPose(new Pose2d(34, 131, Math.toRadians(90)));
         }
     }
 
     public double[] calculateLocalizedData() {
-        Pose2d robotPose = drive.localizer.getPose();
+        Pose2d robotPose = localizer.getPose();
         double headingRadians = robotPose.heading.toDouble();
 
         double turretX = robotPose.position.x - (turretOffsetY * Math.sin(headingRadians));
@@ -257,7 +257,7 @@ public class Aimer {
      * robotVel: in/sec; robotVelAngular : rad/sec;
      */
     public double[] calculateLocalizedDataWithVelocityComp(double robotVelX, double robotVelY, double robotVelAngular) {
-        Pose2d robotPose = drive.localizer.getPose();
+        Pose2d robotPose = localizer.getPose();
 
         // Compensate for latency by projecting robot pose forward
         double predictedX = robotPose.position.x + (robotVelX * latencyRobotPose);

@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.Localizer;
 import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.MecanumDrive;
 
 /**
@@ -18,7 +19,7 @@ import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.MecanumDrive;
 @Config
 public class Movement {
     private final DcMotor leftFront, leftBack, rightFront, rightBack;
-    private final MecanumDrive drive;
+    private final Localizer localizer;
     //private final IMU imu;
     private final double STRAFE_MULTIPLIER = 1.0, ROTATION_MULTIPLIER = 1.0;
     private final double SLOW_MULTIPLIER = 1.0;
@@ -29,13 +30,13 @@ public class Movement {
      * Initializes a Movement instance.
      * @param map {@link com.qualcomm.robotcore.hardware.HardwareMap}
      */
-    public Movement(@NonNull HardwareMap map, MecanumDrive drive){
+    public Movement(@NonNull HardwareMap map, Localizer localizer){
         leftFront = map.get(DcMotor.class, "leftFront");
         leftBack = map.get(DcMotor.class, "leftBack");
         rightFront = map.get(DcMotor.class, "rightFront");
         rightBack = map.get(DcMotor.class, "rightBack");
 
-        this.drive = drive;
+        this.localizer = localizer;
         //this.imu = drive.lazyImu.get();
 
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -94,10 +95,10 @@ public class Movement {
         // it can be freely changed based on preference.
         // The equivalent button is start on Xbox-style controllers.
         if (start) {
-            drive.localizer.setPose(new Pose2d(0, 0, 0));
+            localizer.setPose(new Pose2d(0, 0, 0));
         }
 
-        double botHeading = drive.localizer.getPose().heading.log();//imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        double botHeading = localizer.getPose().heading.log();//imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
         // Rotate the movement direction counter to the bot's rotation
         double rotX = lateral * Math.cos(-botHeading) - axial * Math.sin(-botHeading);
@@ -137,7 +138,7 @@ public class Movement {
     }
 
     public void setPose(Pose2d newPose) {
-        drive.localizer.setPose(newPose);
+        localizer.setPose(newPose);
     }
 
     public boolean isSlow(){

@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Utility;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.Localizer;
 import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.MecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.*;
 import org.firstinspires.ftc.teamcode.subsystems.limelight.AprilTag;
@@ -27,7 +28,7 @@ public class DistanceRegressionTeleOp extends LinearOpMode {
 
     private AprilTag aprilTag;
     private Aimer aprilAimer;
-    private MecanumDrive drive;
+    private Localizer localizer;
 
     private long lastAimUpdate = 0;
     private double lastTurnCorrection = 0;
@@ -46,11 +47,11 @@ public class DistanceRegressionTeleOp extends LinearOpMode {
         intake = new Intake(hardwareMap);
         storage = new Storage(hardwareMap, intake);
         outtake = new Outtake(hardwareMap, Outtake.Mode.RPM);
-        drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
-        movement = new Movement(hardwareMap, drive);
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
+        movement = new Movement(hardwareMap, drive.localizer);
 
         aprilTag = new AprilTag(hardwareMap, telemetry);
-        aprilAimer = new Aimer(drive, isFarShoting, outtake);
+        aprilAimer = new Aimer(drive.localizer, isFarShoting, outtake);
 
         GamepadEx gp1 = new GamepadEx(gamepad1);
         GamepadEx gp2 = new GamepadEx(gamepad2);
@@ -73,7 +74,7 @@ public class DistanceRegressionTeleOp extends LinearOpMode {
     }
 
     public void teleopTick(GamepadEx g1, GamepadEx g2, Telemetry telemetry) {
-        drive.updatePoseEstimate();
+        localizer.update();
         outtake.periodic();
         double turnCorrection = 0;
 
