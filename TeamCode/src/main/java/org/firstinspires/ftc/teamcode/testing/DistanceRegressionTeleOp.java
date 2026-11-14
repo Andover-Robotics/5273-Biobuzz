@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Utility;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.Localizer;
 import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.MecanumDrive;
+import org.firstinspires.ftc.teamcode.pedro.util.PedroLocalizer;
 import org.firstinspires.ftc.teamcode.subsystems.*;
 import org.firstinspires.ftc.teamcode.subsystems.limelight.AprilTag;
 import org.firstinspires.ftc.teamcode.subsystems.Aimer;
@@ -33,6 +34,7 @@ public class DistanceRegressionTeleOp extends LinearOpMode {
     private long lastAimUpdate = 0;
     private double lastTurnCorrection = 0;
     private double bearingTurnCorrection = 0;
+    private double targetRange = 0;
 
     public static double shooterRPM = 1000;
     public static boolean isFarShoting = false;
@@ -47,11 +49,11 @@ public class DistanceRegressionTeleOp extends LinearOpMode {
         intake = new Intake(hardwareMap);
         storage = new Storage(hardwareMap, intake);
         outtake = new Outtake(hardwareMap, Outtake.Mode.RPM);
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
-        movement = new Movement(hardwareMap, drive.localizer);
+        PedroLocalizer drive = new PedroLocalizer(hardwareMap, new Pose2d(0, 0, 0));
+        movement = new Movement(hardwareMap, drive);
 
         aprilTag = new AprilTag(hardwareMap, telemetry);
-        aprilAimer = new Aimer(drive.localizer, isFarShoting, outtake);
+        aprilAimer = new Aimer(drive, isFarShoting, outtake);
 
         GamepadEx gp1 = new GamepadEx(gamepad1);
         GamepadEx gp2 = new GamepadEx(gamepad2);
@@ -83,11 +85,11 @@ public class DistanceRegressionTeleOp extends LinearOpMode {
 
             if (now - lastAimUpdate >= AIM_UPDATE_INTERVAL_MS) {
                 lastAimUpdate = now;
-
                 double[] data = aprilAimer.calculateLocalizedData();
 
+                targetRange = data[1];
                 lastTurnCorrection = data[0];
-                //shooterRPM = outtake.getRegressionRPM(data[1]);
+                shooterRPM = outtake.getRegressionRPM(targetRange);
                 bearingTurnCorrection = data[2];
             }
 
@@ -163,6 +165,9 @@ public class DistanceRegressionTeleOp extends LinearOpMode {
             colorGoalSelected = "Red";
         }
 
+        telemetry.addData("Pose X", localizer.getPose().position.x);
+        telemetry.addData("Pose Y", localizer.getPose().position.y);
+        telemetry.addData("Range", targetRange);
         telemetry.addData("Target RPM", shooterRPM);
         telemetry.addData("Measured RPM", outtake.getMeasuredRPM());
         telemetry.addData("Turn Correction", turnCorrection);
