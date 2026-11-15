@@ -40,6 +40,11 @@ public class Aimer {
     public static Pose2d targetPoseForAimLeft = new Pose2d(60,58,Math.toRadians(90));
     public static Pose2d targetPoseForAimRight = new Pose2d(144- targetPoseForAimLeft.position.x,58, Math.toRadians(90));
 
+    public static double customPoseX = 0;
+    public static double customPoseY = 0;
+    public static double customPoseHeadingRad = 0;
+    private static Pose2d customPose = new Pose2d(customPoseX, customPoseY, customPoseHeadingRad);
+
     //for rpm power
     public static Pose2d targetPoseForRpm = targetPoseForRpmLeft;
     public static Pose2d targetPoseAim = targetPoseForAimLeft;
@@ -111,6 +116,10 @@ public class Aimer {
 
     public void localize(Pose2d pose) {
         localizer.setPose(pose);
+    }
+
+    public void localizeForCustom() {
+        localize(customPose);
     }
 
     public void relocalizeForBack(){

@@ -25,7 +25,7 @@ public class LocalizedAimingTester extends LinearOpMode {
     private Storage storage;
     //private Outtake outtake;
     private Movement movement;
-    //private Turret turret;
+    private Turret turret;
 
     private AprilTag aprilTag;
     private Aimer aimer;
@@ -39,7 +39,7 @@ public class LocalizedAimingTester extends LinearOpMode {
     private double bearingAvoidCorrection = 0;
     public static double goalHeading = 0;
     public static double BEARING_AVOID_IN_DEGREES = 26.7;
-    public static boolean mecanumAvoid = true;
+    public static boolean mecanumAvoid = false;
     public static double shooterRPM;
 
     public static boolean isFarShooting = false;
@@ -60,7 +60,7 @@ public class LocalizedAimingTester extends LinearOpMode {
         //outtake = new Outtake(hardwareMap, Outtake.Mode.RPM);
         localizer = new MecanumDrive(hardwareMap, startPose).localizer;
         movement = new Movement(hardwareMap, localizer);
-        //turret = new Turret(hardwareMap);
+        turret = new Turret(hardwareMap);
 
         aprilTag = new AprilTag(hardwareMap, telemetry);
         aimer = new Aimer(localizer, isFarShooting, null);
@@ -134,7 +134,7 @@ public class LocalizedAimingTester extends LinearOpMode {
                     );
                 }
             } else {
-                if (mecanumAvoid) {/*
+                if (mecanumAvoid) {
                     // Avoiding the heading where servo must wraparound, to disable set BEARING_AVOID_IN_DEGREES = 0
                     double targetAngle = wrapAngle360(-bearingTurnCorrection + 180 + turret.getServoOffset());
 
@@ -164,7 +164,7 @@ public class LocalizedAimingTester extends LinearOpMode {
                     } else {
                         bearingAvoidCorrection = 0;
                     }
-                */}
+                }
                 else {
                     bearingAvoidCorrection = 0;
                 }
@@ -187,7 +187,7 @@ public class LocalizedAimingTester extends LinearOpMode {
                     );
                 }
 
-                //turret.rotate(bearingTurnCorrection);
+                turret.rotate(bearingTurnCorrection);
             }
         }
         else {
@@ -249,14 +249,15 @@ public class LocalizedAimingTester extends LinearOpMode {
 */
 
         if (g1.wasJustPressed(GamepadKeys.Button.DPAD_UP))
-            storage.openGate();
+            //storage.openGate();
+            Turret.servoOffset += 1;
 
         if (g1.wasJustPressed(GamepadKeys.Button.DPAD_DOWN))
-            storage.closeGate();
+            Turret.servoOffset -= 1;
 
 
         if (g1.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
-            //turret.setServos(0);
+            turret.setServos(0);
         }
 
         if (g1.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER)) {
@@ -279,6 +280,10 @@ public class LocalizedAimingTester extends LinearOpMode {
         if (g1.wasJustPressed(GamepadKeys.Button.X)) {
                 aimer.relocalizeForBack();
         }
+        
+        if (g1.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
+                aimer.localizeForCustom();
+        }
 
         // Alliance selection
         if (g1.wasJustPressed(GamepadKeys.Button.BACK)) {
@@ -299,6 +304,8 @@ public class LocalizedAimingTester extends LinearOpMode {
         telemetry.addData("Bot Range", data[1]); // moved limelight
        // telemetry.addData("measured RPM", outtake.getMeasuredRPM());
         //telemetry.addData("Outtake Power", outtake.getPower());
+        telemetry.addData("servoOffset: ", Turret.servoOffset);
+
         telemetry.addData("Localized Lock", aimlock);
         telemetry.addData("x", localizer.getPose().position.x);
         telemetry.addData("y", localizer.getPose().position.y);
