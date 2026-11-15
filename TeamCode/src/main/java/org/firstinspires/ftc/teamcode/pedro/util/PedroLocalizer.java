@@ -18,16 +18,22 @@ public class PedroLocalizer implements Localizer {
         localizer = follower.localizer;
         setPose(pose);
     }
+    public static Pose2d toRR(Pose pose) {
+        return new Pose2d(pose.x(), pose.y(), pose.heading());
+    }
+    public static Pose toPedro(Pose2d pose) {
+        return new Pose(pose.position.x, pose.position.y, pose.heading.log());
+    }
     @Override
     public void setPose(Pose2d pose) {
         // Do they use the same coordinate convention? (They probably do)
-        localizer.setPose(new Pose(pose.position.x, pose.position.y, pose.heading.log()));
+        localizer.setPose(toPedro(pose));
     }
 
     @Override
     public Pose2d getPose() {
         Pose pose = localizer.pose();
-        return new Pose2d(pose.x(), pose.y(), pose.heading());
+        return toRR(pose);
     }
 
     @Override

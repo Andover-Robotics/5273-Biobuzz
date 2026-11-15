@@ -7,9 +7,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 
 import com.pedropathing.ivy.Command;
 
-import java.util.function.Supplier;
-
-public class RoadRunnerCommands {
+public class RRCmd {
     // "Variable must be final or effectively final"
     static class RRCommandData {
         Action action;

@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.pedro.opmodes;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
@@ -7,10 +10,15 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.ivy.Scheduler;
 import com.pedropathing.ivy.Command;
 
+import org.firstinspires.ftc.teamcode.auto.utils.BotActions;
+import org.firstinspires.ftc.teamcode.auto.utils.Hardware;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 import org.firstinspires.ftc.teamcode.pedro.paths.BasicRed;
+import org.firstinspires.ftc.teamcode.pedro.util.PedroLocalizer;
+import org.firstinspires.ftc.teamcode.pedro.util.RRCmd;
 
 import static com.pedropathing.ivy.Scheduler.schedule;
+import static com.pedropathing.ivy.groups.Groups.race;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
@@ -19,6 +27,8 @@ public class BasicRedAuto extends OpMode {
 
     private Follower follower;
     private BasicRed paths;
+    private BotActions actions;
+    private static final boolean isFarShooting = false;
 
     @Override
     public void init() {
@@ -26,6 +36,8 @@ public class BasicRedAuto extends OpMode {
 
         follower = Constants.create(hardwareMap);
         paths = new BasicRed();
+
+        actions = new BotActions(new Hardware(PedroLocalizer.toRR(paths.getStartPose()), hardwareMap, telemetry, isFarShooting), telemetry, this);
 
         follower.setPose(paths.getStartPose());
         follower.update();
@@ -50,7 +62,7 @@ public class BasicRedAuto extends OpMode {
 
     @Override
     public void start() {
-        schedule(autoRoutine());
+        schedule(race(RRCmd.run(actions.actionPeriodic(isFarShooting)), autoRoutine()));
     }
 
     @Override

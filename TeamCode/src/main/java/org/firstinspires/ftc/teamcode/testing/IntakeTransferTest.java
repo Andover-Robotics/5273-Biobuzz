@@ -104,6 +104,18 @@ class IntakeTransferTestBot {
             storage.runTransfer();
         }
 
+        if (gamepad.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.01) {
+            outtake.set(1000);
+        } else {
+            outtake.stop();
+        }
+
+        if (gamepad.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.01) {
+            storage.openGate();
+        } else {
+            storage.closeGate();
+        }
+
         // Right bumper: Run both at holding amounts
         if (gamepad.getButton(GamepadKeys.Button.RIGHT_BUMPER)) {
             intake.setPower(IntakeTransferTest.INTAKE_HOLDING_POWER);
@@ -115,6 +127,8 @@ class IntakeTransferTestBot {
             intake.stop();
             storage.stopTransfer();
         }
+
+        outtake.periodic();
 
         // Update telemetry with dashboard-compatible format
         telemetry.addData("=== Intake Transfer Test ===", "");

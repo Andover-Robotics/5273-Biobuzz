@@ -11,8 +11,10 @@ import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.Localizer;
 import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.MecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.Storage;
 import org.firstinspires.ftc.teamcode.subsystems.Turret;
@@ -23,7 +25,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Outtake;
 
 @Config
 public class BotActions {
-    private final LinearOpMode opMode;
+    private final OpMode opMode;
     private final Telemetry telemetry;
     private final Intake intake;
     private final Storage storage;
@@ -31,7 +33,7 @@ public class BotActions {
     private final Turret turret;
     private final Aimer aimer;
     public final AprilTag aprilTag;
-    private final MecanumDrive drive;
+    private final Localizer localizer;
 
     private boolean aimlock = false;
     private long lastAimUpdate = 0;
@@ -52,14 +54,14 @@ public class BotActions {
     public BotActions(
             Hardware hardware,
             Telemetry telemetry,
-            LinearOpMode opMode
+            OpMode opMode
     ) {
         this.intake = hardware.intake;
         this.outtake = hardware.outtake;
         this.turret = hardware.turret;
         this.aprilTag = hardware.aprilTag;
         this.aimer = hardware.aimer;
-        this.drive = hardware.mecanumDrive;
+        this.localizer = hardware.mecanumDrive.localizer;
         this.storage = hardware.storage;
         this.telemetry = telemetry;
         this.opMode = opMode;
@@ -121,11 +123,7 @@ public class BotActions {
         return new Action() {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                if (!opMode.opModeIsActive() || opMode.isStopRequested()) {
-                    return false;
-                }
-
-                drive.updatePoseEstimate();
+                localizer.update();
                 outtake.set(targetRPM);
                 outtake.periodic();
 

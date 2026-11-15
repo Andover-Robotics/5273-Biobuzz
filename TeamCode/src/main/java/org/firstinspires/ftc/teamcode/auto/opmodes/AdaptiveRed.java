@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.MecanumDrive;
@@ -18,6 +19,7 @@ import org.firstinspires.ftc.teamcode.teleop.MainTeleopClose;
 
 @Config
 @Autonomous(name = "Adaptive Red Auto", group = "Autonomous")
+@Disabled
 public class AdaptiveRed extends LinearOpMode {
     private Hardware hardware;
     private BotActions botActions;

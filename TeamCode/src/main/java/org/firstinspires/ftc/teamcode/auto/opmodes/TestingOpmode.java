@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.auto.roadrunner.miscRR.MecanumDrive;
@@ -18,6 +19,7 @@ import java.util.function.IntSupplier;
 
 @Config
 @Autonomous(name = "Testing opmode", group = "Autonomous")
+@Disabled
 public class TestingOpmode extends LinearOpMode {
     private Hardware hardware;
 
