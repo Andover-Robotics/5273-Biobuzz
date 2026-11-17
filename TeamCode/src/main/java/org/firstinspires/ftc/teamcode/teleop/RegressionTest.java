@@ -17,8 +17,6 @@ public class RegressionTest extends LinearOpMode {
     private GamepadEx gamepadEx;
 
     public static double p = 0.0015;
-    public static double i = 0.0;
-    public static double d = 0.0;
     public static double f = 0.000176;
 
     private static final double TPR = 28.0;
@@ -106,17 +104,8 @@ public class RegressionTest extends LinearOpMode {
             telemetry.addData("RPM Error", "%.1f", error);
 
             telemetry.addLine("--- PERFORMANCE ---");
-            telemetry.addData("Average Error", "%.1f", averageError);
-            telemetry.addData("Maximum Error", "%.1f", maxError);
             telemetry.addData("Motor Power", "%.3f", motorPower);
             telemetry.addData("Samples", samples);
-
-            telemetry.addLine("--- PIDF ---");
-            telemetry.addData("P", "%.5f", p);
-            telemetry.addData("I", "%.5f", i);
-            telemetry.addData("D", "%.5f", d);
-            telemetry.addData("F", "%.6f", f);
-
             telemetry.update();
         }
     }
