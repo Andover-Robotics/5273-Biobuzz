@@ -23,7 +23,6 @@ public class RegressionTest extends LinearOpMode {
 
     private static final double TPR = 28.0;
     private static final double MAX_RPM = 6000;
-    private static final double RPM_INCREMENT = 100;
 
     private double targetRPM = 0;
     private double measuredRPM = 0;
@@ -41,8 +40,10 @@ public class RegressionTest extends LinearOpMode {
         gamepadEx = new GamepadEx(gamepad1);
 
         telemetry.addLine("OUTTAKE REGRESSION TEST");
-        telemetry.addLine("D-PAD UP: +100 RPM");
-        telemetry.addLine("D-PAD DOWN: -100 RPM");
+        telemetry.addLine("D-PAD UP: +25 RPM");
+        telemetry.addLine("D-PAD DOWN: -25 RPM");
+        telemetry.addLine("D-PAD RIGHT: +100 RPM");
+        telemetry.addLine("D-PAD LEFT: -100 RPM");
         telemetry.addLine("X: Reset RPM");
         telemetry.update();
 
@@ -54,12 +55,22 @@ public class RegressionTest extends LinearOpMode {
 
             if (gamepadEx.wasJustPressed(
                     GamepadKeys.Button.DPAD_UP)) {
-                targetRPM += RPM_INCREMENT;
+                targetRPM += 25;
             }
 
             if (gamepadEx.wasJustPressed(
                     GamepadKeys.Button.DPAD_DOWN)) {
-                targetRPM -= RPM_INCREMENT;
+                targetRPM -= 25;
+            }
+
+            if (gamepadEx.wasJustPressed(
+                    GamepadKeys.Button.DPAD_RIGHT)) {
+                targetRPM += 100;
+            }
+
+            if (gamepadEx.wasJustPressed(
+                    GamepadKeys.Button.DPAD_LEFT)) {
+                targetRPM -= 100;
             }
 
             if (gamepadEx.wasJustPressed(
