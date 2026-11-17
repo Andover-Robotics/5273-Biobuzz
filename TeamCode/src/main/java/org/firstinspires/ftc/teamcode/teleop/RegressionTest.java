@@ -16,10 +16,7 @@ public class RegressionTest extends LinearOpMode {
 
     private GamepadEx gamepadEx;
 
-    public static double p = 0.0015;
-    public static double f = 0.000176;
 
-    private static final double TPR = 28.0;
     private static final double MAX_RPM = 6000;
 
     private double targetRPM = 0;
@@ -76,8 +73,7 @@ public class RegressionTest extends LinearOpMode {
                 targetRPM = 0;
             }
 
-            targetRPM = Math.max(0,
-                    Math.min(MAX_RPM, targetRPM));
+            targetRPM = Math.max(0, Math.min(MAX_RPM, targetRPM));
 
             outtake.set(targetRPM);
             outtake.periodic();
