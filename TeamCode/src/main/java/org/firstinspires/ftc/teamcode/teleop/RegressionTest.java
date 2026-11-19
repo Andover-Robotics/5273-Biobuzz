@@ -101,7 +101,7 @@ public class RegressionTest extends LinearOpMode {
             telemetry.addData("RPM Error", "%.1f", error);
 
             telemetry.addLine("--- PERFORMANCE ---");
-            telemetry.addData("Motor Power", "%.3f", motorPower);
+            telemetry.addData("Motor Power", "%.4f", motorPower);
             telemetry.addData("Samples", samples);
             telemetry.update();
         }
