@@ -37,9 +37,10 @@ public class RegressionTest extends LinearOpMode {
         telemetry.addLine("OUTTAKE REGRESSION TEST");
         telemetry.addLine("D-PAD UP: +25 RPM");
         telemetry.addLine("D-PAD DOWN: -25 RPM");
-        telemetry.addLine("D-PAD RIGHT: +100 RPM");
+        telemetry.addLine("D-PAD RIGHT: +200 RPM");
         telemetry.addLine("D-PAD LEFT: -100 RPM");
         telemetry.addLine("X: Reset RPM");
+        
         telemetry.update();
 
         waitForStart();
@@ -60,7 +61,7 @@ public class RegressionTest extends LinearOpMode {
 
             if (gamepadEx.wasJustPressed(
                     GamepadKeys.Button.DPAD_RIGHT)) {
-                targetRPM += 100;
+                targetRPM += 200;
             }
 
             if (gamepadEx.wasJustPressed(
