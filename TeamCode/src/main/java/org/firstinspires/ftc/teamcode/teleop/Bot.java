@@ -80,7 +80,7 @@ public class Bot extends BotPeriodics {
 
     private void handleOuttakeActions() {
         if (!actionHost.isRunning() && g2.wasJustPressed(GamepadKeys.Button.A) && aimlock) {
-            actionHost.start(actionFire(isFarShooting));
+            actionHost.start(actionFire());
         }
     }
 
@@ -98,14 +98,14 @@ public class Bot extends BotPeriodics {
         }
     }
 
-    private Action actionFire(boolean isFarShooting) {
+    private Action actionFire() {
         Action shootingAction = new SequentialAction(
-                /*packet -> {
+                packet -> {
                     outtake.set(getTargetRPM());
-                    return !outtake.inRange(withinRpmRange, 75);
-                },*/
+                    return !outtake.inRange(withinRpmRange, 100);
+                },
                 new InstantAction(intake::run),
-                new InstantAction(() -> storage.runTransfer(isFarShooting)),
+                new InstantAction(storage::runTransfer),
                 new InstantAction(storage::openGate),
                 new SleepAction(FIRE_TIME),
                 new InstantAction(storage::closeGate),
@@ -118,9 +118,7 @@ public class Bot extends BotPeriodics {
         );
 
         return new ParallelAction(
-                shootingAction,
                 packet -> {
-                    // Packet returns true when shootingAction ends
                     outtake.set(getTargetRPM());
                     return shootingAction.run(packet);
                 }
