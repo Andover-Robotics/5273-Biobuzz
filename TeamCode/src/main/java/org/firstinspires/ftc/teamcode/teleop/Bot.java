@@ -23,7 +23,8 @@ public class Bot extends BotPeriodics {
     private long teleOpStartTime;
     public static long timeToReverseTransferAfterStartBeforeCloseGate = 500; // ms
 
-    public static double withinRpmRange = 150; //
+    public static double withinRpmRange = 350; // tune, responsiveness over accuracy
+    public static double minMsWithinRangeToFire = 75;
     public static double FIRE_TIME = 1.0;
 
     public static Pose2d startPose = new Pose2d(0, 0, 0);
@@ -102,7 +103,7 @@ public class Bot extends BotPeriodics {
         Action shootingAction = new SequentialAction(
                 packet -> {
                     outtake.set(getTargetRPM());
-                    return !outtake.inRange(withinRpmRange, 100);
+                    return !outtake.inRange(withinRpmRange, minMsWithinRangeToFire);
                 },
                 new InstantAction(intake::run),
                 new InstantAction(storage::runTransfer),
