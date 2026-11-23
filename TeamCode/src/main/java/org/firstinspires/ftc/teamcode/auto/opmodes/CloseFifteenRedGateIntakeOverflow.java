@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.auto.utils.Hardware;
 import org.firstinspires.ftc.teamcode.subsystems.Aimer;
 import org.firstinspires.ftc.teamcode.teleop.Bot;
 import org.firstinspires.ftc.teamcode.teleop.BotPeriodics;
-import org.firstinspires.ftc.teamcode.teleop.MainTeleopClose;
+import org.firstinspires.ftc.teamcode.teleop.MainTeleop;
 
 @Config
 @Autonomous(name = "Close Fifteen Ball Red Gate Intake Overflow Auto", group = "Autonomous")
@@ -199,7 +199,7 @@ public class CloseFifteenRedGateIntakeOverflow extends LinearOpMode {
         }
         finally {
             drive.updatePoseEstimate();
-            MainTeleopClose.startPose = drive.localizer.getPose();
+            MainTeleop.startPose = drive.localizer.getPose();
             Bot.startPose = drive.localizer.getPose();
             BotPeriodics.goal = Aimer.Goal.RIGHT;
         }
