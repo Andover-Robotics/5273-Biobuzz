@@ -25,7 +25,10 @@ public class Bot extends BotPeriodics {
 
     public static double withinRpmRange = 350; // tune, responsiveness over accuracy
     public static double minMsWithinRangeToFire = 75;
-    public static double FIRE_TIME = 1.0;
+    public static double FIRE_TIME = 1.0; // sec
+
+    public static double EJECT_TIME = 0.1; // sec
+    public static double INTAKE_TIME_AFTER_EJECT_5TH= 0.15; // sec
 
     public static Pose2d startPose = new Pose2d(0, 0, 0);
 
@@ -123,6 +126,15 @@ public class Bot extends BotPeriodics {
                     outtake.set(getTargetRPM());
                     return shootingAction.run(packet);
                 }
+        );
+    }
+
+    private Action actionEjectFifth() {
+        return new SequentialAction(
+                new InstantAction(intake::runBackwards),
+                new SleepAction(EJECT_TIME),
+                new InstantAction(intake::run),
+                new SleepAction(INTAKE_TIME_AFTER_EJECT_5TH)
         );
     }
 }
