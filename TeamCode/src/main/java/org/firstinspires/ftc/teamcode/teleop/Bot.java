@@ -134,7 +134,8 @@ public class Bot extends BotPeriodics {
                 new InstantAction(intake::runBackwards),
                 new SleepAction(EJECT_TIME),
                 new InstantAction(intake::run),
-                new SleepAction(INTAKE_TIME_AFTER_EJECT_5TH)
+                new SleepAction(INTAKE_TIME_AFTER_EJECT_5TH),
+                new InstantAction(intake::stop)
         );
     }
 }
